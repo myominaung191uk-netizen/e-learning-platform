@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="lms-dashboard">
+
+    <div class="lms-hero">
+        <div>
+            <p class="welcome-text">Welcome back,</p>
+            <h1>{{ session.get("user_name") }}</h1>
+            <p>Continue your learning journey and track your progress.</p>
+        </div>
+
+        <a class="lms-hero-btn" href="{{ url_for('index') }}">
+            Browse Courses
+        </a>
+    </div>
+
+    <div class="lms-stats">
+        <div class="lms-stat-card">
+            <span>📚</span>
+            <h3>{{ courses|length }}</h3>
+            <p>Enrolled Courses</p>
+        </div>
+
+        <div class="lms-stat-card">
+            <span>📝</span>
+            <h3>{{ results|length }}</h3>
+            <p>Quizzes Taken</p>
+        </div>
+
+        <div class="lms-stat-card">
+            <span>👤</span>
+            <h3>Student</h3>
+            <p>Account Type</p>
+        </div>
+    </div>
+
+    <div class="lms-section-title">
+        <h2>My Learning</h2>
+        <p>Your enrolled courses are listed below.</p>
+    </div>
+
+    <div class="lms-course-grid">
+        {% for course in courses %}
+            <div class="lms-course-card">
+                <div class="course-icon">🎓</div>
+
+                <div class="course-content">
+                    <span class="course-badge">{{ course.category }}</span>
+                    <h3>{{ course.title }}</h3>
+                    <p>{{ course.description }}</p>
+
+                    <a class="lms-course-btn" href="{{ url_for('course_detail', course_id=course.id) }}">
+                        Continue Learning →
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            <div class="lms-empty">
+                <div class="empty-icon">📭</div>
+                <h3>No enrolled courses yet</h3>
+                <p>Browse available courses and enroll to start learning.</p>
+
+                <a class="lms-course-btn" href="{{ url_for('index') }}">
+                    Browse Courses
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+
+</section>
+{% endblock %}

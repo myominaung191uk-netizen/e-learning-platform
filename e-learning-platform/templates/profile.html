@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="profile-page">
+    <div class="profile-card">
+        <div class="profile-avatar">
+            {{ user.name[0].upper() }}
+        </div>
+
+        <h1>{{ user.name }}</h1>
+        <p class="profile-role">{{ user.role|title }}</p>
+
+        <div class="profile-info">
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Account Type:</strong> {{ user.role|title }}</p>
+        </div>
+
+        <a href="{{ url_for('edit_profile') }}" class="profile-edit-btn">
+            Edit Profile
+        </a>
+    </div>
+
+    <div class="profile-results">
+        <h2>Quiz Results</h2>
+
+        {% if results %}
+            <div class="result-list">
+                {% for result in results %}
+                    <div class="result-item">
+                        <h3>{{ result.course.title }}</h3>
+                        <p>Score: {{ result.score }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-box">
+                <h3>No quiz results yet</h3>
+                <p>Your quiz results will appear here after you complete quizzes.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

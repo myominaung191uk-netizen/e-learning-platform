@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="course-detail-page">
+
+    <div class="course-hero">
+        <span class="course-category">{{ course.category }}</span>
+        <h1>{{ course.title }}</h1>
+        <p>{{ course.description }}</p>
+
+        {% if session.get("role") == "student" %}
+            {% if is_enrolled %}
+                <p class="enrolled-badge">✅ You are enrolled in this course</p>
+
+                <div class="progress-box">
+                    <p>Course Progress: {{ progress_percent }}%</p>
+
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: {{ progress_percent }}%;"></div>
+                    </div>
+
+                    <small>{{ completed_count }} of {{ total_lessons }} lessons completed</small>
+                </div>
+            {% else %}
+                <form method="POST" action="{{ url_for('enroll_course', course_id=course.id) }}">
+                    <button type="submit" class="enroll-btn">Enroll Now</button>
+                </form>
+            {% endif %}
+        {% endif %}
+
+        {% if session.get("role") == "admin" %}
+            <div class="course-admin-actions">
+                <a href="{{ url_for('add_lesson', course_id=course.id) }}">Add Lesson</a>
+                <a href="{{ url_for('add_quiz', course_id=course.id) }}">Add Quiz Question</a>
+            </div>
+        {% endif %}
+    </div>
+
+    {% if session.get("role") == "admin" or is_enrolled %}
+        <div class="course-layout">
+            <div class="lessons-box">
+                <h2>Video Lessons & PDF Materials</h2>
+
+                {% for lesson in lessons %}
+                    <div class="lesson-card">
+                        <h3>{{ loop.index }}. {{ lesson.title }}</h3>
+
+                        {% if lesson.video_url %}
+                            <iframe
+                                class="lesson-video"
+                                id="video-{{ lesson.id }}"
+                                data-lesson-id="{{ lesson.id }}"
+                                src="{{ lesson.video_url }}?enablejsapi=1"
+                                frameborder="0"
+                                allowfullscreen>
+                            </iframe>
+
+                            {% if session.get("role") == "student" and lesson.id not in completed_lessons %}
+                                <form id="complete-form-{{ lesson.id }}" method="POST" action="{{ url_for('complete_lesson', lesson_id=lesson.id) }}" style="display: none;"></form>
+                            {% endif %}
+                        {% endif %}
+
+                        {% if lesson.pdf_file %}
+                            <a class="btn-secondary" href="{{ url_for('static', filename='uploads/' + lesson.pdf_file) }}" target="_blank">
+                                View PDF
+                            </a>
+                        {% endif %}
+
+                        {% if session.get("role") == "student" %}
+                            {% if lesson.id in completed_lessons %}
+                                <p class="completed-label">✅ Completed</p>
+                            {% else %}
+                                <form method="POST" action="{{ url_for('complete_lesson', lesson_id=lesson.id) }}">
+                                    <button type="submit" class="complete-btn">Mark as Completed</button>
+                                </form>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="empty-box">
+                        <h3>No lessons yet</h3>
+                        <p>Admin can add video lessons or PDF files for this course.</p>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="quiz-box">
+                <h2>Quiz</h2>
+
+                {% if quizzes %}
+                    <p>{{ quizzes|length }} quiz question(s) available.</p>
+                    <a class="btn-secondary" href="{{ url_for('take_quiz', course_id=course.id) }}">
+                        Start Quiz
+                    </a>
+                {% else %}
+                    <div class="empty-box">
+                        <h3>No quiz questions yet</h3>
+                        <p>Admin can add quiz questions for this course.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <div class="empty-box">
+            <h3>Please enroll first</h3>
+            <p>You need to enroll in this course before viewing lessons or taking quizzes.</p>
+        </div>
+    {% endif %}
+
+</section>
+
+{% if session.get("role") == "student" and is_enrolled %}
+<script src="https://www.youtube.com/iframe_api"></script>
+
+<script>
+let players = {};
+
+function onYouTubeIframeAPIReady() {
+    const videos = document.querySelectorAll(".lesson-video");
+
+    videos.forEach(function(video) {
+        const lessonId = video.dataset.lessonId;
+
+        players[lessonId] = new YT.Player(video.id, {
+            events: {
+                "onStateChange": function(event) {
+                    if (event.data === YT.PlayerState.ENDED) {
+                        const form = document.getElementById("complete-form-" + lessonId);
+
+                        if (form) {
+                            form.submit();
+                        }
+                    }
+                }
+            }
+        });
+    });
+}
+</script>
+{% endif %}
+{% endblock %}

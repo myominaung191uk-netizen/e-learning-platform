@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Welcome to Our E-Learning Platform</h1>
+        <p>
+            A secure and modern learning system where students can access courses,
+            watch video lessons, and complete quizzes provided by the school.
+        </p>
+
+        <a href="{{ url_for('login') }}" class="btn-primary">Login to Start</a>
+    </div>
+</section>
+
+<!-- ABOUT SECTION -->
+<section id="about" class="section">
+    <h2>About Our Platform</h2>
+    <p>
+        Our platform is designed for schools to provide a safe and structured
+        learning environment. Students can only access accounts created by the
+        administrator, ensuring privacy and control.
+    </p>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+    <div class="feature-card">
+        <h3>📚 Courses</h3>
+        <p>Access structured learning materials created by your school.</p>
+    </div>
+
+    <div class="feature-card">
+        <h3>🎥 Video Lessons</h3>
+        <p>Watch lessons anytime and learn at your own pace.</p>
+    </div>
+
+    <div class="feature-card">
+        <h3>📝 Quizzes</h3>
+        <p>Test your knowledge with quizzes and track your progress.</p>
+    </div>
+</section>
+
+<!-- COURSES -->
+<section class="section">
+    <h2>Available Courses</h2>
+
+    <div class="course-grid">
+        {% for course in courses %}
+            <div class="course-card">
+                <h3>{{ course.title }}</h3>
+                <p>{{ course.description }}</p>
+                <span class="category">{{ course.category }}</span>
+
+                <a href="{{ url_for('course_detail', course_id=course.id) }}" class="btn-secondary">
+                    View Course
+                </a>
+            </div>
+        {% else %}
+            <p class="no-data">No courses available yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- CONTACT -->
+<!-- CONTACT -->
+<section id="contact" class="contact-page">
+    <div class="contact-title">
+        <h2>Contact Us</h2>
+    </div>
+
+    <div class="contact-container">
+        <div class="contact-form">
+            <h2>Do you have any question?</h2>
+
+            <form>
+                <input type="text" placeholder="Enter Name">
+                <input type="text" placeholder="Enter Phone">
+                <input type="email" placeholder="Enter Email">
+                <input type="text" placeholder="Enter Subject">
+                <textarea placeholder="Enter Message"></textarea>
+
+                <button type="submit">Send</button>
+            </form>
+        </div>
+
+        <div class="contact-info">
+            <p class="small-title">CONTACT</p>
+            <h2>Keep In Touch</h2>
+
+            <div class="info-grid">
+                <div>
+                    <h3>☎ Phone</h3>
+                    <p>+123 456 789</p>
+                    <p>+123 987 654</p>
+                </div>
+
+                <div>
+                    <h3>✉ Email</h3>
+                    <p class="pink-text">school@example.com</p>
+                </div>
+            </div>
+
+            <div class="address-box">
+                <h3>📍 Address</h3>
+                <p>Your School Name</p>
+                <p>Your School Address, Your City</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-box">
+    <h2>Edit Course</h2>
+
+    <form method="POST">
+        <label>Course Title</label>
+        <input type="text" name="title" value="{{ course.title }}" required>
+
+        <label>Description</label>
+        <textarea name="description" required>{{ course.description }}</textarea>
+
+        <label>Category</label>
+        <input type="text" name="category" value="{{ course.category }}" required>
+
+        <button type="submit">Update Course</button>
+    </form>
+</div>
+{% endblock %}

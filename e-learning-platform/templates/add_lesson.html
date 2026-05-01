@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-box">
+    <h2>Add Lesson</h2>
+    <p class="form-subtitle">Add video lesson or PDF file for {{ course.title }}</p>
+
+    <form method="POST" enctype="multipart/form-data">
+        <label>Lesson Title</label>
+        <input type="text" name="title" placeholder="Enter lesson title" required>
+
+        <label>Video URL</label>
+        <input type="text" name="video_url" placeholder="Use YouTube embed link">
+
+        <label>Upload PDF File</label>
+        <input type="file" name="pdf_file" accept="application/pdf">
+
+        <button type="submit">Add Lesson</button>
+    </form>
+</div>
+{% endblock %}

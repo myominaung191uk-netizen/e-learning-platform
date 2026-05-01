@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-box">
+    <h2>Login</h2>
+    <p class="form-subtitle">Login to access your dashboard.</p>
+
+    <form method="POST">
+        <label>Email Address</label>
+        <input type="email" name="email" placeholder="Enter your email" required>
+
+        <label>Password</label>
+        <input type="password" name="password" id="passwordInput" placeholder="Enter your password" required>
+
+        <div class="show-password">
+            <input type="checkbox" id="showPassword">
+            <label for="showPassword">Show password</label>
+        </div>
+
+        <button type="submit">Login</button>
+    </form>
+</div>
+
+<script>
+    const checkbox = document.getElementById("showPassword");
+    const passwordInput = document.getElementById("passwordInput");
+
+    checkbox.addEventListener("change", function () {
+        passwordInput.type = this.checked ? "text" : "password";
+    });
+</script>
+{% endblock %}

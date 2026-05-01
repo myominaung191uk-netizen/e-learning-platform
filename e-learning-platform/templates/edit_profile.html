@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-box">
+    <h2>Edit Profile</h2>
+    <p class="form-subtitle">Update your name or password</p>
+
+    <form method="POST">
+        <label>Full Name</label>
+        <input type="text" name="name" value="{{ user.name }}" required>
+
+        <label>Email Address</label>
+        <input type="email" value="{{ user.email }}" disabled>
+
+        <label>Current Password</label>
+        <div class="password-wrapper">
+            <input type="password" name="current_password" id="currentPassword" required>
+            <button type="button" class="toggle-password" onclick="togglePassword('currentPassword', this)">
+                Show
+            </button>
+        </div>
+
+        <label>New Password</label>
+        <div class="password-wrapper">
+            <input type="password" name="new_password" id="newPassword" placeholder="Leave empty if no change">
+            <button type="button" class="toggle-password" onclick="togglePassword('newPassword', this)">
+                Show
+            </button>
+        </div>
+
+        <label>Confirm New Password</label>
+        <div class="password-wrapper">
+            <input type="password" name="confirm_password" id="confirmPassword" placeholder="Leave empty if no change">
+            <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword', this)">
+                Show
+            </button>
+        </div>
+
+        <button type="submit">Update Profile</button>
+    </form>
+</div>
+
+<script>
+function togglePassword(inputId, button) {
+    const input = document.getElementById(inputId);
+
+    if (input.type === "password") {
+        input.type = "text";
+        button.textContent = "Hide";
+    } else {
+        input.type = "password";
+        button.textContent = "Show";
+    }
+}
+</script>
+{% endblock %}

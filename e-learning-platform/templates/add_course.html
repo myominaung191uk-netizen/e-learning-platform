@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-box wide">
+    <h2>Add Course</h2>
+
+    <form method="POST">
+        <label>Course Title</label>
+        <input type="text" name="title" placeholder="Example: Python Basics" required>
+
+        <label>Description</label>
+        <textarea name="description" rows="5" placeholder="Write a short course description" required></textarea>
+
+        <label>Category</label>
+        <input type="text" name="category" placeholder="Example: Programming" required>
+
+        <button type="submit">Save Course</button>
+    </form>
+</div>
+{% endblock %}

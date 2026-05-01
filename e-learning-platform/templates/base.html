@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Learning Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">
+        <a href="{{ url_for('index') }}">E-Learning</a>
+    </div>
+
+    <div class="nav-links">
+        {% if session.get("user_id") %}
+            <a href="{{ url_for('dashboard') }}">Courses</a>
+            <a href="{{ url_for('dashboard') }}">Quizzes</a>
+            <a href="{{ url_for('profile') }}">Profile</a>
+            <a href="{{ url_for('logout') }}" class="login-btn">Logout</a>
+        {% else %}
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('index') }}#about">About</a>
+            <a href="{{ url_for('index') }}#contact">Contact</a>
+            <a href="{{ url_for('login') }}" class="login-btn">Login</a>
+        {% endif %}
+    </div>
+</nav>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="message">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+{% block content %}{% endblock %}
+
+<footer class="footer">
+    <div class="footer-icons">
+        <a href="#">f</a>
+        <a href="#">◎</a>
+        <a href="#">𝕏</a>
+        <a href="#">G+</a>
+        <a href="#">▶</a>
+    </div>
+
+    <div class="footer-links">
+        {% if session.get("user_id") %}
+            <a href="{{ url_for('dashboard') }}">Courses</a>
+            <a href="{{ url_for('dashboard') }}">Quizzes</a>
+            <a href="{{ url_for('profile') }}">Profile</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        {% else %}
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('index') }}#about">About</a>
+            <a href="{{ url_for('index') }}#contact">Contact Us</a>
+            <a href="{{ url_for('login') }}">Login</a>
+        {% endif %}
+    </div>
+
+    <div class="footer-bottom">
+        <p>Copyright ©2026; Designed by Your Name</p>
+    </div>
+</footer>
+
+</body>
+</html>

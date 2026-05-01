@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="quiz-page">
+    <div class="quiz-header">
+        <h1>{{ course.title }} Quiz</h1>
+        <p>Choose the correct answer for each question.</p>
+    </div>
+
+    <form method="POST" class="quiz-form">
+        {% for quiz in quizzes %}
+            <div class="quiz-card">
+                <h3>{{ loop.index }}. {{ quiz.question }}</h3>
+
+                <label>
+                    <input type="radio" name="{{ quiz.id }}" value="A" required>
+                    <span>A. {{ quiz.option_a }}</span>
+                </label>
+
+                <label>
+                    <input type="radio" name="{{ quiz.id }}" value="B">
+                    <span>B. {{ quiz.option_b }}</span>
+                </label>
+
+                <label>
+                    <input type="radio" name="{{ quiz.id }}" value="C">
+                    <span>C. {{ quiz.option_c }}</span>
+                </label>
+
+                <label>
+                    <input type="radio" name="{{ quiz.id }}" value="D">
+                    <span>D. {{ quiz.option_d }}</span>
+                </label>
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="quiz-submit">Submit Quiz</button>
+    </form>
+</section>
+{% endblock %}

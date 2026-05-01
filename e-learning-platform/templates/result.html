@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="result-page">
+    <div class="result-card">
+        <div class="result-icon">🎉</div>
+
+        <h1>Quiz Result</h1>
+        <p class="result-course">Course: {{ course.title }}</p>
+
+        <div class="score-circle">
+            <h2>{{ score }}</h2>
+            <p>out of {{ total }}</p>
+        </div>
+
+        <h3>Your Score: {{ score }} / {{ total }}</h3>
+        <p class="percentage">
+            Percentage: {{ (score / total * 100) | round(1) }}%
+        </p>
+
+        {% if score == total %}
+            <p class="result-message success">Excellent work! You got all answers correct.</p>
+        {% elif score >= total / 2 %}   
+            <p class="result-message good">Good job! Keep practicing to improve more.</p>
+        {% else %}
+            <p class="result-message try">Keep learning and try again.</p>
+        {% endif %}
+
+        <a href="{{ url_for('dashboard') }}" class="btn-secondary">Back to Dashboard</a>
+    </div>
+</section>
+{% endblock %}
